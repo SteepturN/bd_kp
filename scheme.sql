@@ -1,78 +1,68 @@
-/* number, what would you like to be called, email, */
-CREATE TABLE People
+CREATE TABLE PersonInfo
 (
-	Full_name            NCHAR(128) 		NOT NULL,
-	Age                  TINYINT UNSIGNED 		NOT NULL check ( age < 200 ),
-	Passport             CHAR(10) 			NOT NULL check ( Passport REGEXP '^[0-9]\{5,\}$' ),
-	Sex                  enum('Not known', 'Male', 'Female', 'Not applicable',
-						 'helicopter', 'deer', 'kostyaan') NOT NULL,
-	person_id            INTEGER UNSIGNED	 	NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (person_id)
+	FullName			NCHAR(128) 		NOT NULL,
+	Age					TINYINT UNSIGNED 		NOT NULL check ( age < 130 ),
+	Passport			CHAR(10) 			NOT NULL check ( Passport REGEXP '^[0-9]\{5,\}$' ),
+	Sex					enum('Not known', 'Male', 'Female', 'Not applicable') NOT NULL,
+	person_id			INTEGER UNSIGNED	 	NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY ( person_id )
 );
 
--- building, like 1a
--- address
+
+CREATE TABLE Customer
+(
+	WrongBehavior		NCHAR(128) 				NULL,
+	Status				enum( 'vip', 'standart' ) default( 'standart' ) NULL,
+	HavePets			BOOLEAN 				NOT NULL DEFAULT( FALSE ),
+	InBlackList			BOOLEAN 				NOT NULL DEFAULT( FALSE ),
+	customer_id			INTEGER UNSIGNED	 	NOT NULL AUTO_INCREMENT,
+	FOREIGN KEY ( customer_id ) REFERENCES PersonInfo( person_id ),
+	PRIMARY KEY ( customer_id )
+);
+
 CREATE TABLE Room
 (
-	Floor                TINYINT UNSIGNED NOT NULL Default( 1 ),
-	`Number`             TINYINT UNSIGNED NOT NULL Default( 1 ),
-	`Class`              enum('vip', 'standart', 'half vip') NOT NULL default( 'standart' ),
-	Capacity             TINYINT UNSIGNED NOT NULL Default( 1 ),
-	room_id              INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (room_id)
+	Floor				TINYINT UNSIGNED NOT NULL Default( 1 ),
+	`Number`			TINYINT UNSIGNED NOT NULL Default( 1 ),
+	`Class`				enum('vip', 'standart', 'half vip') NOT NULL default( 'standart' ),
+	Capacity			TINYINT UNSIGNED NOT NULL Default( 1 ),
+	room_id				INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY ( room_id )
 );
 
--- add feedback
--- succesful or not + full revert of money or not
 CREATE TABLE HotelOrder
 (
-	DateInfo             DATE 		NOT NULL,
-	Price                INT UNSIGNED 	NOT NULL,
-	Stars                TINYINT UNSIGNED 	NULL check ( Stars <= 5 ),
-	person_id            INTEGER UNSIGNED 	NOT NULL,
-	room_id              INTEGER UNSIGNED 	NOT NULL,
-	order_id             INTEGER UNSIGNED 	NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (order_id),
-	FOREIGN KEY ( person_id ) REFERENCES People( person_id ),
-	FOREIGN KEY ( room_id ) REFERENCES Room( room_id )
+	DateInfo			DATE 		NOT NULL,
+	Price				INT UNSIGNED 	NOT NULL,
+	Stars				TINYINT UNSIGNED 	NULL check ( Stars <= 5 ),
+	customer_id			INTEGER UNSIGNED 	NOT NULL,
+	room_id				INTEGER UNSIGNED 	NOT NULL,
+	order_id			INTEGER UNSIGNED 	NOT NULL AUTO_INCREMENT,
+	FOREIGN KEY ( customer_id ) REFERENCES Customer( customer_id ),
+	FOREIGN KEY ( room_id ) REFERENCES Room( room_id ),
+	PRIMARY KEY ( order_id )
 );
 
+CREATE TABLE Employee
+(
+	Speciality			NCHAR(128) 			NOT NULL,
+	PhoneNumber			NCHAR(20)			NOT NULL check ( PhoneNumber REGEXP '^+?[0-9]\{3,20\}$' ),
+	TimeIn				TIME 				NOT NULL default( '9:00:00' ),
+	TimeOut				TIME				NOT NULL default( '18:00:00' ),
+	employee_id			INTEGER UNSIGNED	NOT NULL AUTO_INCREMENT,
+	FOREIGN KEY ( employee_id ) REFERENCES PersonInfo( person_id ),
+	PRIMARY KEY ( employee_id )
+);
 
+CREATE TABLE EmployeeDetailedInfo
+(
+	Salary				INTEGER UNSIGNED 	NOT NULL,
+	Rate				FLOAT 				NOT NULL default( 1 ),
+	Address				NCHAR(50)			NULL,
+	supervisor_id		INTEGER UNSIGNED	NOT NULL,
+	employee_id			INTEGER UNSIGNED	NOT NULL AUTO_INCREMENT,
+	FOREIGN KEY ( employee_id ) REFERENCES Employee( employee_id ),
+	FOREIGN KEY ( supervisor_id ) REFERENCES Employee( employee_id ),
+	PRIMARY KEY ( employee_id )
+);
 
-/*
-	возможные таблицы
-Workers - id, FullName, speciality - profession, worker payment/salary,
-					dates when he worked, phone,
-
-					---
-					dates for vacation, schedule for week/month or
-					involvment in some group that has its own schedule for work
-					maybe like waitress or cleaning
-
-
-secure - workers  -  id, education,
-	   					passport, age, sex, notes about,
-						worker credit card info
-
-
-
-
-
-curr info about - I can get from hotel orders
-
-
-
-
-
-schedule 	-		person_id - dates for vacation,
-					schedule for week/month for 1 person or
-					involvment in some group that has its own schedule for work
-					maybe like waitress or cleaning, but what if it is unique
-
-
-
-
-
-
-
-*/
