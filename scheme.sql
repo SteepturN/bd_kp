@@ -11,11 +11,11 @@ CREATE TABLE PersonInfo
 
 CREATE TABLE Customer
 (
-	WrongBehavior		NCHAR(128) 				NULL,
+	WrongBehaviour		NCHAR(128) 				NULL,
 	Status				enum( 'vip', 'standart' ) default( 'standart' ) NULL,
 	HavePets			BOOLEAN 				NOT NULL DEFAULT( FALSE ),
 	InBlackList			BOOLEAN 				NOT NULL DEFAULT( FALSE ),
-	customer_id			INTEGER UNSIGNED	 	NOT NULL AUTO_INCREMENT,
+	customer_id			INTEGER UNSIGNED	 	NOT NULL,
 	FOREIGN KEY ( customer_id ) REFERENCES PersonInfo( person_id ),
 	PRIMARY KEY ( customer_id )
 );
@@ -46,10 +46,10 @@ CREATE TABLE HotelOrder
 CREATE TABLE Employee
 (
 	Speciality			NCHAR(128) 			NOT NULL,
-	PhoneNumber			NCHAR(20)			NOT NULL check ( PhoneNumber REGEXP '^+?[0-9]\{3,20\}$' ),
+	PhoneNumber			NCHAR(20)			NOT NULL check ( PhoneNumber REGEXP '^[+]?[0-9]\{3,20\}$' ),
 	TimeIn				TIME 				NOT NULL default( '9:00:00' ),
 	TimeOut				TIME				NOT NULL default( '18:00:00' ),
-	employee_id			INTEGER UNSIGNED	NOT NULL AUTO_INCREMENT,
+	employee_id			INTEGER UNSIGNED	NOT NULL,
 	FOREIGN KEY ( employee_id ) REFERENCES PersonInfo( person_id ),
 	PRIMARY KEY ( employee_id )
 );
@@ -59,8 +59,8 @@ CREATE TABLE EmployeeDetailedInfo
 	Salary				INTEGER UNSIGNED 	NOT NULL,
 	Rate				FLOAT 				NOT NULL default( 1 ),
 	Address				NCHAR(50)			NULL,
-	supervisor_id		INTEGER UNSIGNED	NOT NULL,
-	employee_id			INTEGER UNSIGNED	NOT NULL AUTO_INCREMENT,
+	supervisor_id		INTEGER UNSIGNED	NULL,
+	employee_id			INTEGER UNSIGNED	NOT NULL,
 	FOREIGN KEY ( employee_id ) REFERENCES Employee( employee_id ),
 	FOREIGN KEY ( supervisor_id ) REFERENCES Employee( employee_id ),
 	PRIMARY KEY ( employee_id )
