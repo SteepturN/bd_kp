@@ -46,7 +46,8 @@ CREATE TABLE HotelOrder
 CREATE TABLE Employee
 (
 	Speciality			NCHAR(128) 			NOT NULL,
-	PhoneNumber			NCHAR(20)			NOT NULL check ( PhoneNumber REGEXP '^[+]?[0-9]\{3,20\}$' ),
+	PhoneNumber			NCHAR(20)			NOT NULL check ( PhoneNumber REGEXP
+															'^[+]?[0-9]\{3,20\}$' ),
 	TimeIn				TIME 				NOT NULL default( '9:00:00' ),
 	TimeOut				TIME				NOT NULL default( '18:00:00' ),
 	employee_id			INTEGER UNSIGNED	NOT NULL,
@@ -57,7 +58,7 @@ CREATE TABLE Employee
 CREATE TABLE EmployeeDetailedInfo
 (
 	Salary				INTEGER UNSIGNED 	NOT NULL,
-	Rate				FLOAT 				NOT NULL default( 1 ),
+	Rate				FLOAT 				NOT NULL default( 1 ) check( Rate > 0 ),
 	Address				NCHAR(50)			NULL,
 	supervisor_id		INTEGER UNSIGNED	NULL,
 	employee_id			INTEGER UNSIGNED	NOT NULL,

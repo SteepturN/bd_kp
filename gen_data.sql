@@ -52,14 +52,14 @@ insert into Customer ( WrongBehaviour, `Status`, `HavePets`, InBlackList, custom
 (null, 'standart', FALSE, FALSE, 12),
 (null, null, FALSE, FALSE, 26),
 (null, 'standart', TRUE, FALSE, 22),
-('Разбита ваза, Кража халата, Разбит стакан', 'vip', FALSE, FALSE, 17),
+('Разбита ваза, Кража халата, Разбит стакан', 'vip', FALSE, TRUE, 17),
 (null, 'standart', FALSE, FALSE, 2),
 (null, 'standart', FALSE, FALSE, 3),
 ('Интегрировал всю ночь, не давал спать соседям', 'standart', TRUE, TRUE, 7),
 (null, 'standart', TRUE, FALSE, 19),
 ('Разбит стакан', 'vip', TRUE, FALSE, 32),
 ('Оставлены ценные вещи вне сейфа, Кража халата', 'standart', FALSE, FALSE, 24),
-('Спал всю ночь, не давал интегрировать соседям', 'standart', FALSE, FALSE, 40);
+('Спал всю ночь, не давал интегрировать соседям', 'standart', FALSE, TRUE, 40);
 insert into Room ( Floor, `Number`, `Class`, Capacity ) values
 (1, 1, 'half vip', 1),
 (1, 2, 'standart', 1),
